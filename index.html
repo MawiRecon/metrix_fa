@@ -32,6 +32,11 @@
         <h1>Metrix</h1>
     </div>
 
+    <!-- Top Leaderboard Ad -->
+    <div class="top-banner-ad">
+        <div class="ad-slot" id="ad-slot-728x90"></div>
+    </div>
+
     <!-- Main container for sidebar and calculator -->
     <div class="main-container">
 
@@ -63,9 +68,9 @@
 
         <!-- Ad Column -->
         <div class="ad-column">
-            <div class="ad-slot" id="ad-slot-1"></div>
-            <div class="ad-slot" id="ad-slot-2"></div>
-            <div class="ad-slot" id="ad-slot-3"></div>
+            <div class="ad-slot" id="ad-slot-300x250"></div>
+            <div class="ad-slot" id="ad-slot-160x600"></div>
+            <div class="ad-slot" id="ad-slot-160x300"></div>
         </div>
     </div>
 
@@ -74,36 +79,46 @@
 
     <script type="text/javascript">
         const adSlots = [
-            { id: 'ad-slot-1', key: '90b09ebfb759ea63f8e3e872f27804d9' },  // example key
-            { id: 'ad-slot-2', key: 'REPLACE_WITH_KEY_2' },
-            { id: 'ad-slot-3', key: 'REPLACE_WITH_KEY_3' },
+            { id: 'ad-slot-300x250', key: '90b09ebfb759ea63f8e3e872f27804d9', width: 300, height: 250 },
+            { id: 'ad-slot-728x90', key: '60218279d99f5ceeda7adba3fdd7c83a', width: 728, height: 90 },
+            { id: 'ad-slot-160x600', key: '366f5036c5fb0ef69ca58d126e7f2037', width: 160, height: 600 },
+            { id: 'ad-slot-160x300', key: '7618fd98756916fe83ff42377b6019f8', width: 160, height: 300 },
         ];
 
         adSlots.forEach(slot => {
             const container = document.getElementById(slot.id);
-
-            // Remove if already exists (for dynamic reloads)
             if (!container) return;
 
             const configScript = document.createElement('script');
             configScript.type = 'text/javascript';
             configScript.innerHTML = `
-      atOptions = {
-        'key' : '${slot.key}',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    `;
+                atOptions = {
+                    'key' : '${slot.key}',
+                    'format' : 'iframe',
+                    'height' : ${slot.height},
+                    'width' : ${slot.width},
+                    'params' : {}
+                };
+            `;
             container.appendChild(configScript);
 
             const adScript = document.createElement('script');
             adScript.type = 'text/javascript';
-            adScript.src = `//www.highperformanceformat.com/${slot.key}/invoke.js`;
+            adScript.src = `https://www.highperformanceformat.com/${slot.key}/invoke.js`;
             container.appendChild(adScript);
         });
     </script>
+
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            loadCalculator('CPM');
+        });
+    </script>
+
 </body>
+
+
+
 
 </html>
