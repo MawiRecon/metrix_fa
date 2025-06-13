@@ -112,6 +112,48 @@
         });
     </script>
 
+    <script>
+        // Refresh each ad every 60 seconds
+        setInterval(() => {
+            adSlots.forEach(slot => {
+                const container = document.getElementById(slot.id);
+                if (!container) return;
+
+                // Clear the ad slot contents
+                container.innerHTML = '';
+
+                // Re-inject Adsterra config script
+                const configScript = document.createElement('script');
+                configScript.type = 'text/javascript';
+                configScript.innerHTML = `
+                    atOptions = {
+                        'key' : '${slot.key}',
+                        'format' : 'iframe',
+                        'height' : ${slot.height},
+                        'width' : ${slot.width},
+                        'params' : {}
+                    };
+                `;
+                container.appendChild(configScript);
+
+                // Re-inject Adsterra loader script
+                const adScript = document.createElement('script');
+                adScript.type = 'text/javascript';
+                adScript.src = `https://www.highperformanceformat.com/${slot.key}/invoke.js`;
+                container.appendChild(adScript);
+            });
+        }, 60000); // every 60,000 ms = 60 seconds
+    </script>
+
+
+
+
+
+
+
+
+
+
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
