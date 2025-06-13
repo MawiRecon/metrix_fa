@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>How to Calculate ROAS for Facebook Ads (And Why It Matters)</title>
-    <link rel="stylesheet" href="../styles.css" />
+    <title>What Is a Good Click-Through Rate (CTR) for Display Ads?</title>
+    <link rel="stylesheet" href="styles.css" />
     <style>
         body {
             font-family: sans-serif;
@@ -55,7 +55,6 @@
             margin: 2rem 0;
             min-height: 250px;
             text-align: center;
-            /*  border: 1px dashed #ccc; */
         }
 
         .footer-link {
@@ -71,54 +70,68 @@
 </head>
 
 <body>
+
     <div class="header">
         <h2>Metrix Blog</h2>
         <a href="/">Back to Calculator</a>
     </div>
 
     <div class="container">
-        <h1>How to Calculate ROAS for Facebook Ads (And Why It Matters)</h1>
+        <h1>What Is a Good Click-Through Rate (CTR) for Display Ads?</h1>
         <div class="date">Published June 2025</div>
 
-        <p>Return on Ad Spend (ROAS) is one of the most important metrics in paid media — especially if you're running
-            Facebook Ads on a budget. Knowing your ROAS helps you understand whether your campaigns are actually
-            profitable.</p>
+        <!-- Blog Image -->
+        <img src="https://source.unsplash.com/800x400/?ads,marketing" alt="Display advertising"
+            style="width: 100%; margin: 1rem 0; border-radius: 12px;" />
 
-        <p>To calculate ROAS, simply divide the revenue from your Facebook campaign by the total ad spend. For example,
-            if you spent $200 and generated $1,000 in sales, your ROAS is 5.0 — meaning you made $5 for every $1 spent.
-        </p>
+        <p>If you’ve ever launched a display campaign, you’ve probably asked the question: <strong>“Is my CTR
+                good?”</strong></p>
+
+        <p>CTR (click-through rate) is the ratio of users who click your ad compared to the number of impressions. For
+            display ads, the average CTR typically ranges from <strong>0.1% to 0.5%</strong>.</p>
 
         <!-- Ad Slot 1 -->
         <div class="ad-slot" id="atContainer-POSTAD1"></div>
 
-        <p>Most advertisers aim for at least a 3.0 ROAS on Facebook, but this number can vary widely by industry. What's
-            important is tracking your numbers over time and identifying which audiences or creatives drive the best
-            returns.</p>
+        <h2>Why It’s Usually Low</h2>
+        <p>Unlike search ads where users are actively looking for something, display ads are passive. They're shown to
+            people browsing content, not necessarily ready to act. That’s why CTRs are naturally lower.</p>
 
-        <p>And yes — if you want to calculate ROAS instantly, try our <a href="/">ROAS Calculator</a> on the homepage.
-        </p>
+        <h2>What’s Considered “Good”?</h2>
+        <ul>
+            <li><strong>Above 0.3%</strong>: Solid for most industries</li>
+            <li><strong>Above 0.5%</strong>: Strong performance</li>
+            <li><strong>1% or higher</strong>: Exceptional (often retargeting)</li>
+        </ul>
+
+        <p>However, don’t obsess over CTR alone. It’s just one metric. Sometimes, a lower CTR with better conversions is
+            more valuable than a high CTR with no sales.</p>
 
         <!-- Ad Slot 2 -->
         <div class="ad-slot" id="atContainer-POSTAD2"></div>
+
+        <p>Keep testing creative, refining audiences, and checking post-click behavior. That’s how you truly optimize
+            performance — not just chase a higher CTR.</p>
 
         <div class="footer-link">
             <a href="/blog.html">← Browse more articles</a>
         </div>
     </div>
 
+    <!-- Adsterra script injection -->
     <script type="text/javascript">
         window.atAsyncOptions = window.atAsyncOptions || [];
 
         atAsyncOptions.push(
             {
-                key: '90b09ebfb759ea63f8e3e872f27804d9', // 300x250
+                key: '90b09ebfb759ea63f8e3e872f27804d9', // ad slot 1
                 format: 'js',
                 async: true,
                 container: 'atContainer-POSTAD1',
                 params: {}
             },
             {
-                key: '507dbf7941144ad29e081c012beec202', // 468x60
+                key: '507dbf7941144ad29e081c012beec202', // ad slot 2
                 format: 'js',
                 async: true,
                 container: 'atContainer-POSTAD2',
@@ -132,6 +145,7 @@
         postAdScript.src = 'https://www.highperformanceformat.com/90b09ebfb759ea63f8e3e872f27804d9/invoke.js';
         document.getElementsByTagName('head')[0].appendChild(postAdScript);
     </script>
+
 </body>
 
 </html>
