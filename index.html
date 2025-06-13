@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>METRIX</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- MathJax Configuration -->
+    <script type="text/javascript">
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['$$', '$$']],
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Metrix</h1>
+    </div>
+
+    <!-- Main container for sidebar and calculator -->
+    <div class="main-container">
+
+        <!-- Sidebar -->
+        <div class="sidenav">
+            <a href="#" onclick="loadCalculator('Percent Change')">Percent Change</a>
+            <a href="#" onclick="loadCalculator('ROAS')">ROAS</a>
+            <a href="#" onclick="loadCalculator('CPM')">CPM</a>
+            <a href="#" onclick="loadCalculator('CPA')">CPA</a>
+            <a href="#" onclick="loadCalculator('CPC')">CPC</a>
+            <a href="#" onclick="loadCalculator('CTR')">CTR</a>
+            <a href="#" onclick="loadCalculator('VCR')">VCR</a>
+            <a href="#" onclick="loadCalculator('LTR')">LTR</a>
+            <a href="#" onclick="loadCalculator('View Rate')">View Rate</a>
+            <a href="#" onclick="loadCalculator('TargetBid')">Target Bid</a>
+            <a href="#" onclick="loadCalculator('MarginMarkup')">Margin & Markup</a>
+            <a href="#" onclick="loadCalculator('calculatePercentAddition')">Add %</a>
+            <a href="#" onclick="loadCalculator('calculatePercentSubtraction')">Subtract %</a>
+            <a href="#" onclick="loadCalculator('calculateIndex')">Index</a>
+        </div>
+
+        <!-- Calculator container -->
+        <div id="calculator-container" class="calculator-container" style="display: none;">
+            <h2 id="calculator-title"></h2>
+            <form id="calculator-form"></form>
+            <div id="result" class="result"></div>
+            <div id="custom-text" class="custom-text"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
