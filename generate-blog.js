@@ -123,7 +123,7 @@ async function generateBlogPost(topic) {
       {{remainingContent}}
 
       <div class="footer-link">
-        <a href="/blog.html">← Browse more articles</a>
+        <a href="../blog/">← Browse more articles</a>
       </div>
         <!-- Pixabay Attribution -->
       {{attribution}}
