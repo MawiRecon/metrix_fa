@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Why the Moon Might Be Hollow</title>
+    <title>{{title}}</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
         body {
@@ -32,9 +32,16 @@
             font-size: 0.9rem;
         }
 
-        .container {
-            max-width: 700px;
+        /* Wrap container and sidebar in flexbox */
+        .page-wrapper {
+            display: flex;
+            max-width: 960px;
             margin: 2rem auto;
+            gap: 1rem;
+        }
+
+        .container {
+            flex: 1;
             padding: 1rem;
             background: white;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
@@ -53,13 +60,40 @@
 
         .ad-slot {
             margin: 2rem 0;
+            text-align: center;
+        }
+
+        /* Sticky right sidebar for native ad */
+        .sidebar-ad {
+            width: 300px;
+            position: sticky;
+            top: 2rem;
+            align-self: flex-start;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 0.5rem 0;
             min-height: 250px;
             text-align: center;
+        }
 
+        /* Sticky footer for 468x60 ad */
+        #sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 468px;
+            height: 60px;
+            background: transparent;
+            z-index: 9999;
+            text-align: center;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.15);
+            border-radius: 8px 8px 0 0;
         }
 
         .footer-link {
-            text-align: center;
+            text-align: left;
             margin-top: 2rem;
         }
 
@@ -72,66 +106,93 @@
 
 <body>
 
+    <!-- Billboard Ad at Top -->
+    <div id="atContainer-60218279d99f5ceeda7adba3fdd7c83a"
+        style="width:728px; height:90px; margin: 1rem auto; text-align:center;"></div>
+
+    <script type="text/javascript">
+        if (typeof atAsyncOptions !== 'object') var atAsyncOptions = [];
+        atAsyncOptions.push({
+            'key': '60218279d99f5ceeda7adba3fdd7c83a',
+            'format': 'js',
+            'async': true,
+            'container': 'atContainer-60218279d99f5ceeda7adba3fdd7c83a',
+            'params': {}
+        });
+        var script = document.createElement('script');
+        script.type = "text/javascript";
+        script.async = true;
+        script.src = (location.protocol === 'https:' ? 'https' : 'http') + '://www.highperformanceformat.com/60218279d99f5ceeda7adba3fdd7c83a/invoke.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+    </script>
+
     <div class="header">
         <h2>Metrix Blog</h2>
         <a href="/">Back to Calculator</a>
     </div>
 
-    <div class="container">
-        <h1>Why the Moon Might Be Hollow</h1>
-        <div class="date">Published June 2025</div>
+    <div class="page-wrapper">
 
-        <!-- Blog Image -->
-        <img src="https://source.unsplash.com/800x400/?business,office" alt="Marketing image"
-            style="width: 100%; margin: 1rem 0; border-radius: 12px;" onerror="this.style.display='none'" />
+        <div class="container">
+            <h1>{{title}}</h1>
+            <div class="date">Published June 2025</div>
 
-        <p>For years, conspiracy theorists have proposed that the Moon might not be a natural celestial body. Some
-            believe it could be a hollowed-out structure or even an ancient alien observatory.</p>
+            <!-- Blog Image -->
+            <img src="https://picsum.photos/800/400" alt="Random marketing image"
+                style="width: 100%; margin: 1rem 0; border-radius: 12px;" />
 
-        <p>NASA's seismic studies show the Moon "rings like a bell" when struck by meteorites, which has fueled the
-            hollow Moon theory — though most scientists dismiss it as nonsense.</p>
+            <!-- Blog content with 300x250 ad after first paragraph -->
+            <p>{{firstParagraph}}</p>
 
-        <!-- Ad Slot 1 -->
-        <div class="ad-slot" id="atContainer-POSTAD1"></div>
+            <div class="ad-slot" id="atContainer-90b09ebfb759ea63f8e872f27804d9"
+                style="width: 300px; height: 250px; margin: 2rem auto;"></div>
 
-        <p>Whether it's hollow or not, the Moon continues to capture imaginations around the world. And for website
-            monetizers like you, it also creates the perfect excuse for a page full of ads.</p>
+            {{remainingContent}}
 
-        <p>Don't forget: the Moon landing was in 1969... or was it?</p>
-
-        <!-- Ad Slot 2 -->
-        <div class="ad-slot" id="atContainer-POSTAD2"></div>
-
-        <div class="footer-link">
-            <a href="/blog.html">← Browse more articles</a>
+            <div class="footer-link">
+                <a href="/blog.html">← Browse more articles</a>
+            </div>
         </div>
+
+        <aside class="sidebar-ad">
+            <!-- Native ad in right sidebar -->
+            <div id="container-9b73c7751896d7cce1136982fd030b54" style="width: 300px; height: 250px;"></div>
+            <script async="async" data-cfasync="false"
+                src="//pl26912764.profitableratecpm.com/9b73c7751896d7cce1136982fd030b54/invoke.js"></script>
+        </aside>
+
     </div>
 
-    <!-- Adsterra script injection -->
+    <!-- Sticky footer 468x60 ad -->
+    <div id="sticky-footer">
+        <div class="ad-slot" id="atContainer-507dbf7941144ad29e081c012beec202" style="width:468px; height:60px;"></div>
+    </div>
+
     <script type="text/javascript">
         window.atAsyncOptions = window.atAsyncOptions || [];
 
         atAsyncOptions.push(
             {
-                key: '90b09ebfb759ea63f8e3e872f27804d9', // ad slot 1
+                key: '90b09ebfb759ea63f8e872f27804d9', // 300x250 ad
                 format: 'js',
                 async: true,
-                container: 'atContainer-POSTAD1',
+                container: 'atContainer-90b09ebfb759ea63f8e872f27804d9',
                 params: {}
             },
             {
-                key: '507dbf7941144ad29e081c012beec202', // ad slot 2
+                key: '507dbf7941144ad29e081c012beec202', // 468x60 sticky footer ad
                 format: 'js',
                 async: true,
-                container: 'atContainer-POSTAD2',
+                container: 'atContainer-507dbf7941144ad29e081c012beec202',
                 params: {}
             }
         );
 
+        // Inject ad script once (using one key's invoke.js)
         const postAdScript = document.createElement('script');
         postAdScript.type = 'text/javascript';
         postAdScript.async = true;
-        postAdScript.src = 'https://www.highperformanceformat.com/90b09ebfb759ea63f8e3e872f27804d9/invoke.js';
+        postAdScript.src = 'https://www.highperformanceformat.com/90b09ebfb759ea63f8e872f27804d9/invoke.js';
         document.getElementsByTagName('head')[0].appendChild(postAdScript);
     </script>
 
