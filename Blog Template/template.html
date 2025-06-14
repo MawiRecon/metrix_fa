@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}}</title>
+    <title>Why the Moon Might Be Hollow</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
         body {
@@ -32,14 +32,23 @@
             font-size: 0.9rem;
         }
 
-        /* Wrap container and sidebar in flexbox */
+        /* Billboard ad container */
+        #billboard-ad {
+            width: 728px;
+            height: 90px;
+            margin: 1rem auto;
+            text-align: center;
+        }
+
+        /* Page wrapper with two columns: content and sidebar */
         .page-wrapper {
-            display: flex;
             max-width: 960px;
             margin: 2rem auto;
+            display: flex;
             gap: 1rem;
         }
 
+        /* Main blog content container */
         .container {
             flex: 1;
             padding: 1rem;
@@ -58,12 +67,7 @@
             margin-bottom: 1.5rem;
         }
 
-        .ad-slot {
-            margin: 2rem 0;
-            text-align: center;
-        }
-
-        /* Sticky right sidebar for native ad */
+        /* Sticky right sidebar for 300x250 native ad */
         .sidebar-ad {
             width: 300px;
             position: sticky;
@@ -93,7 +97,7 @@
         }
 
         .footer-link {
-            text-align: left;
+            text-align: center;
             margin-top: 2rem;
         }
 
@@ -107,8 +111,9 @@
 <body>
 
     <!-- Billboard Ad at Top -->
-    <div id="atContainer-60218279d99f5ceeda7adba3fdd7c83a"
-        style="width:728px; height:90px; margin: 1rem auto; text-align:center;"></div>
+    <div id="billboard-ad">
+        <div class="ad-slot" id="atContainer-60218279d99f5ceeda7adba3fdd7c83a"></div>
+    </div>
 
     <script type="text/javascript">
         if (typeof atAsyncOptions !== 'object') var atAsyncOptions = [];
@@ -134,20 +139,23 @@
     <div class="page-wrapper">
 
         <div class="container">
-            <h1>{{title}}</h1>
+            <h1>Why the Moon Might Be Hollow</h1>
             <div class="date">Published June 2025</div>
 
             <!-- Blog Image -->
             <img src="https://picsum.photos/800/400" alt="Random marketing image"
                 style="width: 100%; margin: 1rem 0; border-radius: 12px;" />
 
-            <!-- Blog content with 300x250 ad after first paragraph -->
-            <p>{{firstParagraph}}</p>
+            <p>For years, conspiracy theorists have proposed that the Moon might not be a natural celestial body. Some
+                believe it could be a hollowed-out structure or even an ancient alien observatory.</p>
 
-            <div class="ad-slot" id="atContainer-90b09ebfb759ea63f8e872f27804d9"
-                style="width: 300px; height: 250px; margin: 2rem auto;"></div>
+            <p>NASA's seismic studies show the Moon "rings like a bell" when struck by meteorites, which has fueled the
+                hollow Moon theory — though most scientists dismiss it as nonsense.</p>
 
-            {{remainingContent}}
+            <p>Whether it's hollow or not, the Moon continues to capture imaginations around the world. And for website
+                monetizers like you, it also creates the perfect excuse for a page full of ads.</p>
+
+            <p>Don't forget: the Moon landing was in 1969... or was it?</p>
 
             <div class="footer-link">
                 <a href="/blog.html">← Browse more articles</a>
@@ -155,10 +163,8 @@
         </div>
 
         <aside class="sidebar-ad">
-            <!-- Native ad in right sidebar -->
-            <div id="container-9b73c7751896d7cce1136982fd030b54" style="width: 300px; height: 250px;"></div>
-            <script async="async" data-cfasync="false"
-                src="//pl26912764.profitableratecpm.com/9b73c7751896d7cce1136982fd030b54/invoke.js"></script>
+            <div class="ad-slot" id="atContainer-90b09ebfb759ea63f8e872f27804d9" style="width: 300px; height: 250px;">
+            </div>
         </aside>
 
     </div>
@@ -173,7 +179,7 @@
 
         atAsyncOptions.push(
             {
-                key: '90b09ebfb759ea63f8e872f27804d9', // 300x250 ad
+                key: '90b09ebfb759ea63f8e872f27804d9', // 300x250 native ad
                 format: 'js',
                 async: true,
                 container: 'atContainer-90b09ebfb759ea63f8e872f27804d9',
@@ -188,7 +194,7 @@
             }
         );
 
-        // Inject ad script once (using one key's invoke.js)
+        // Load one of the invoke scripts (usually for the first ad key)
         const postAdScript = document.createElement('script');
         postAdScript.type = 'text/javascript';
         postAdScript.async = true;

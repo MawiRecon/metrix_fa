@@ -1,4 +1,3 @@
-// generate-blog.js
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
@@ -11,7 +10,7 @@ async function generateBlogPost(topic) {
         apiKey: process.env.OPENAI_API_KEY, // set your key in env variable
     });
 
-    const prompt = `
+    const promptTemplate = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,154 +19,161 @@ async function generateBlogPost(topic) {
 <title>{{title}}</title>
 <link rel="stylesheet" href="styles.css" />
 <style>
-  body {
-    font-family: sans-serif;
-    margin: 0;
-    background-color: #f5f5fa;
-    color: #222;
-  }
-  .header {
-    background: #1e1e1e;
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .header a {
-    color: white;
-    text-decoration: none;
-    border: 1px solid white;
-    padding: 4px 10px;
-    border-radius: 4px;
-    font-size: 0.9rem;
-  }
-  .container {
-    max-width: 700px;
-    margin: 2rem auto;
-    padding: 1rem;
-    background: white;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-  }
-  h1 {
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-  }
-  .date {
-    font-size: 0.9rem;
-    color: #888;
-    margin-bottom: 1.5rem;
-  }
-  .ad-slot {
-    margin: 2rem 0;
-    min-height: 250px;
-    text-align: center;
-  }
-  .footer-link {
-    text-align: center;
-    margin-top: 2rem;
-  }
-  .footer-link a {
-    color: #1e1e1e;
-    text-decoration: underline;
-  }
+  body { font-family: sans-serif; margin: 0; background-color: #f5f5fa; color: #222; }
+  .header { background: #1e1e1e; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .header a { color: white; text-decoration: none; border: 1px solid white; padding: 4px 10px; border-radius: 4px; font-size: 0.9rem; }
+  .page-wrapper { display: flex; max-width: 960px; margin: 2rem auto; gap: 1rem; }
+  .container { flex: 1; padding: 1rem; background: white; box-shadow: 0 0 5px rgba(0,0,0,0.05); }
+  h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .date { font-size: 0.9rem; color: #888; margin-bottom: 1.5rem; }
+  .ad-slot { margin: 2rem 0; text-align: center; }
+  .sidebar-ad { width: 300px; position: sticky; top: 2rem; align-self: flex-start; background: white; box-shadow: 0 0 5px rgba(0,0,0,0.05); border-radius: 8px; padding: 0.5rem 0; min-height: 250px; text-align: center; }
+  #sticky-footer { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 468px; height: 60px; background: transparent; z-index: 9999; text-align: center; box-shadow: 0 -2px 6px rgba(0,0,0,0.15); border-radius: 8px 8px 0 0; }
+  .footer-link { text-align: left; margin-top: 2rem; }
+  .footer-link a { color: #1e1e1e; text-decoration: underline; }
 </style>
 </head>
 <body>
+
   <div class="header">
     <h2>Metrix Blog</h2>
     <a href="/">Back to Calculator</a>
   </div>
-  <div class="container">
-    <h1>{{title}}</h1>
-    <div class="date">Published June 2025</div>
-    <!-- Blog Image -->
-    <img src="https://picsum.photos/800/400" alt="Random marketing image" style="width: 100%; margin: 1rem 0; border-radius: 12px;" />
-    {{content}}
-    <!-- Ad Slot 1 -->
-    <div class="ad-slot" id="atContainer-90b09ebfb759ea63f8e3e872f27804d9"></div>
-    <script type="text/javascript">
-      if (typeof atAsyncOptions !== 'object') var atAsyncOptions = [];
-      atAsyncOptions.push({
-        key: '90b09ebfb759ea63f8e3e872f27804d9',
-        format: 'js',
-        async: true,
-        container: 'atContainer-90b09ebfb759ea63f8e3e872f27804d9',
-        params: {}
-      });
-      var script1 = document.createElement('script');
-      script1.type = "text/javascript";
-      script1.async = true;
-      script1.src = 'https://www.highperformanceformat.com/90b09ebfb759ea63f8e3e872f27804d9/invoke.js';
-      document.getElementsByTagName('head')[0].appendChild(script1);
-    </script>
-    <!-- Ad Slot 2 -->
-    <div class="ad-slot" id="atContainer-507dbf7941144ad29e081c012beec202"></div>
-    <script type="text/javascript">
-      if (typeof atAsyncOptions !== 'object') var atAsyncOptions = [];
-      atAsyncOptions.push({
-        key: '507dbf7941144ad29e081c012beec202',
-        format: 'js',
-        async: true,
-        container: 'atContainer-507dbf7941144ad29e081c012beec202',
-        params: {}
-      });
-      var script2 = document.createElement('script');
-      script2.type = "text/javascript";
-      script2.async = true;
-      script2.src = 'https://www.highperformanceformat.com/507dbf7941144ad29e081c012beec202/invoke.js';
-      document.getElementsByTagName('head')[0].appendChild(script2);
-    </script>
-    <!-- Ad Slot 3 -->
-    <div class="ad-slot" id="atContainer-8fb363dc734c5f02a2ccef7879c7cf31"></div>
-    <script type="text/javascript">
-      if (typeof atAsyncOptions !== 'object') var atAsyncOptions = [];
-      atAsyncOptions.push({
-        key: '8fb363dc734c5f02a2ccef7879c7cf31',
-        format: 'js',
-        async: true,
-        container: 'atContainer-8fb363dc734c5f02a2ccef7879c7cf31',
-        params: {}
-      });
-      var script3 = document.createElement('script');
-      script3.type = "text/javascript";
-      script3.async = true;
-      script3.src = 'https://www.highperformanceformat.com/8fb363dc734c5f02a2ccef7879c7cf31/invoke.js';
-      document.getElementsByTagName('head')[0].appendChild(script3);
-    </script>
-    <div class="footer-link">
-      <a href="/blog.html">← Browse more articles</a>
+
+      <!-- Top Leaderboard Ad -->
+    <div class="top-banner-ad">
+        <div class="ad-slot" id="atContainer-60218279d99f5ceeda7adba3fdd7c83a"></div>
+        <script type="text/javascript">
+            if (typeof atAsyncOptions !== 'object') var atAsyncOptions = [];
+            atAsyncOptions.push({
+                'key': '60218279d99f5ceeda7adba3fdd7c83a',
+                'format': 'js',
+                'async': true,
+                'container': 'atContainer-60218279d99f5ceeda7adba3fdd7c83a',
+                'params': {}
+            });
+            var script = document.createElement('script');
+            script.type = "text/javascript";
+            script.async = true;
+            script.src = 'https' + '://www.highperformanceformat.com/60218279d99f5ceeda7adba3fdd7c83a/invoke.js';
+            document.getElementsByTagName('head')[0].appendChild(script);
+        </script>
     </div>
+
+  <div class="page-wrapper">
+
+    <div class="container">
+      <h1>{{title}}</h1>
+      <div class="date">Published June 2025</div>
+
+      <!-- Blog Image -->
+      <img src="https://picsum.photos/800/400" alt="Random marketing image" style="width:100%; margin:1rem 0; border-radius:12px;" />
+
+      <!-- First paragraph -->
+      {{firstParagraph}}
+
+            <!--  start 300x250 -->
+            <div class="ad-slot" id="atContainer-90b09ebfb759ea63f8e3e872f27804d9"></div>
+            <script type="text/javascript">
+                if (typeof atAsyncOptions !== 'object') var atAsyncOptions = [];
+                atAsyncOptions.push({
+                    'key': '90b09ebfb759ea63f8e3e872f27804d9',
+                    'format': 'js',
+                    'async': true,
+                    'container': 'atContainer-90b09ebfb759ea63f8e3e872f27804d9',
+                    'params': {}
+                });
+                var script = document.createElement('script');
+                script.type = "text/javascript";
+                script.async = true;
+                script.src = 'https' + '://www.highperformanceformat.com/90b09ebfb759ea63f8e3e872f27804d9/invoke.js';
+                document.getElementsByTagName('head')[0].appendChild(script);
+            </script>
+            <!--  end 300x250 -->
+
+      <!-- Remaining content -->
+      {{remainingContent}}
+
+      <div class="footer-link">
+        <a href="/blog.html">← Browse more articles</a>
+      </div>
+    </div>
+
+    <aside class="sidebar-ad">
+      <!-- Native ad -->
+      <div id="container-9b73c7751896d7cce1136982fd030b54" style="width: 300px; height: 250px;"></div>
+      <script async data-cfasync="false" src="//pl26912764.profitableratecpm.com/9b73c7751896d7cce1136982fd030b54/invoke.js"></script>
+    </aside>
+
   </div>
+
+            <!--  start 468x60 -->
+            <div class="ad-slot" id="atContainer-507dbf7941144ad29e081c012beec202"></div>
+            <script type="text/javascript">
+                if (typeof atAsyncOptions !== 'object') var atAsyncOptions = [];
+                atAsyncOptions.push({
+                    'key': '507dbf7941144ad29e081c012beec202',
+                    'format': 'js',
+                    'async': true,
+                    'container': 'atContainer-507dbf7941144ad29e081c012beec202',
+                    'params': {}
+                });
+                var script = document.createElement('script');
+                script.type = "text/javascript";
+                script.async = true;
+                script.src = 'https' + '://www.highperformanceformat.com/507dbf7941144ad29e081c012beec202/invoke.js';
+                document.getElementsByTagName('head')[0].appendChild(script);
+            </script>
+            <!--  end 468x60 -->
+
 </body>
 </html>
 `;
 
-    // Replace placeholders with actual topic and content prompt
-    const filledPrompt = prompt
-        .replace(/{{title}}/g, topic)
-        .replace(/{{content}}/g, `<p>Write a detailed SEO-friendly blog post about "${topic}". Use headings, paragraphs, and natural language.</p>`);
-
+    // Generate full blog content from OpenAI
     const completion = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
-        messages: [{ role: 'user', content: filledPrompt }],
+        messages: [{
+            role: 'user',
+            content: `Write a detailed SEO-friendly blog post about "${topic}" in HTML format with paragraphs and headings only.`
+        }],
     });
 
-    return completion.choices[0].message.content;
+    let fullContent = completion.choices[0].message.content;
+
+    // Strip markdown triple backticks and optional html fences
+    fullContent = fullContent
+        .replace(/^```html\s*/, '')
+        .replace(/^```\s*/, '')
+        .replace(/```$/, '')
+        .trim();
+
+    // Extract first paragraph and the rest
+    const firstParaMatch = fullContent.match(/<p>.*?<\/p>/i);
+    let firstParagraph = '', remainingContent = '';
+    if (firstParaMatch) {
+        firstParagraph = firstParaMatch[0];
+        remainingContent = fullContent.replace(firstParaMatch[0], '');
+    } else {
+        firstParagraph = fullContent;
+        remainingContent = '';
+    }
+
+    // Fill in the template
+    const filledHtml = promptTemplate
+        .replace(/{{title}}/g, topic)
+        .replace(/{{firstParagraph}}/g, firstParagraph)
+        .replace(/{{remainingContent}}/g, remainingContent);
+
+    return filledHtml;
 }
 
 async function main() {
-    console.log('Script started');
-
     const topic = process.argv.slice(2).join(' ');
-    console.log('Topic:', topic);
-
     if (!topic) {
         console.error('Usage: node generate-blog.js "<topic>"');
         process.exit(1);
     }
-
-    console.log('Generating blog post for topic:', topic);
 
     try {
         const htmlContent = await generateBlogPost(topic);
@@ -181,6 +187,16 @@ async function main() {
         execSync(`git commit -m "Add blog post about ${topic}"`);
         execSync('git push');
         console.log('Changes pushed to GitHub');
+
+        // Run the index updater script to refresh blog.html
+        console.log('Running update-blog-index.js...');
+        execSync('node update-blog-index.js', { stdio: 'inherit' });
+
+        // Add, commit, and push the updated blog.html
+        execSync('git add Blog/blog.html');
+        execSync('git commit -m "Update blog index with new article"');
+        execSync('git push');
+        console.log('Blog index updated and pushed.');
     } catch (err) {
         console.error('Error:', err);
     }
