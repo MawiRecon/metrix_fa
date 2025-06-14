@@ -15,7 +15,8 @@ function generateListItems() {
         const filePath = path.join(blogDir, file);
         const html = fs.readFileSync(filePath, 'utf-8');
         const title = getTitleFromHTML(html);
-        return `            <li><a href="Blog/${file}">${title}</a></li>`;
+        // Remove 'Blog/' prefix from href because blog.html is inside Blog folder
+        return `            <li><a href="${file}">${title}</a></li>`;
     }).join('\n');
 }
 
