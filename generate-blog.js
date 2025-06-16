@@ -1,14 +1,25 @@
+// generate-blog.js
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 import slugify from 'slugify';
-import fetch from 'node-fetch'; // npm install node-fetch
+import fetch from 'node-fetch';
 import OpenAI from 'openai';
-const PIXABAY_API_KEY = "50854526-b653f2709cc61ca4df8d0da29";
+import dotenv from 'dotenv';
 
+dotenv.config();
+const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
+if (!process.env.OPENAI_API_KEY || !PIXABAY_API_KEY) {
+    console.error('⚠️  Make sure OPENAI_API_KEY and PIXABAY_API_KEY are set in .env');
+    process.exit(1);
+}
 
+// ———— PIXABAY helper ————
 async function fetchPixabayImageData(query) {
-    const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&image_type=photo&safesearch=true&per_page=5&order=popular&orientation=horizontal`;
+    const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}`
+        + `&q=${encodeURIComponent(query)}`
+        + `&image_type=photo&safesearch=true&per_page=5`
+        + `&order=popular&orientation=horizontal`;
     const response = await fetch(url);
     const data = await response.json();
     if (data.hits && data.hits.length > 0) {
@@ -29,13 +40,13 @@ async function fetchPixabayImageData(query) {
     };
 }
 
+// ———— generate one post ————
 async function generateBlogPost(topic) {
-    console.log('Calling OpenAI with topic:', topic);
-    const openai = new OpenAI({
-        apiKey: "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",
-    });
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const pixabayData = await fetchPixabayImageData(topic);
-    console.log('Fetched image data:', pixabayData);
+    const slug = slugify(topic, { lower: true, strict: true });
+    const datePublished = new Date().toISOString().split('T')[0];
+    const fullTitle = `What’s the deal?: ${topic}`;
 
     const promptTemplate = `
 <!DOCTYPE html>
@@ -43,8 +54,17 @@ async function generateBlogPost(topic) {
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PVBXGZ7Q');</script>
+<!-- End Google Tag Manager -->
+
 <title>{{title}}</title>
 <link rel="stylesheet" href="styles.css" />
+<meta name="description" content="{{description}}" />
 <style>
   body { font-family: sans-serif; margin: 0; background-color: #f5f5fa; color: #222; }
   .header { background: #1e1e1e; color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
@@ -60,8 +80,31 @@ async function generateBlogPost(topic) {
   .footer-link { text-align: left; margin-top: 2rem; }
   .footer-link a { color: #1e1e1e; text-decoration: underline; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{title}}",
+  "description": "{{description}}",
+  "image": "{{imageUrl}}",
+  "url": "https://yourdomain.com/blog/{{slug}}",
+  "datePublished": "{{datePublished}}",
+  "author": {
+    "@type": "Person",
+    "name": "Metrix Blog"
+  }
+}
+</script>
+
+  <!-- CANONICAL URL: outside the JSON-LD script -->
+  <link rel="canonical" href="https://yourdomain.com/blog/{{slug}}" />
+
 </head>
 <body>
+        <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PVBXGZ7Q"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
   <div class="header">
     <h2>Metrix Blog</h2>
@@ -106,6 +149,7 @@ async function generateBlogPost(topic) {
 
       <!-- First paragraph -->
       {{firstParagraph}}
+      
 
         <!--  start 300x250 -->
         <div class="ad-slot" id="atContainer-90b09ebfb759ea63f8e3e872f27804d9"></div>
@@ -167,44 +211,41 @@ async function generateBlogPost(topic) {
 </html>
 `;
 
-    // Generate full blog content from OpenAI
+    // call OpenAI
     const completion = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [{
             role: 'user',
-            content: `Write a detailed SEO-friendly blog post about "${topic}" in HTML format with paragraphs and headings only. Include a controversial opinion paragraph. Include a bulleted list of relevant links at the bottom of the blog post.`
+            content: `Write a detailed SEO-friendly blog post about "${topic}" in HTML format with paragraphs and headings only. Include a paragraph that has a controversial opinion about the topic. Include a bulleted list of relevant links at the bottom of the blog post. Aim for at least 500 words of unique, value-driven content.`
         }],
     });
-
-    let fullContent = completion.choices[0].message.content;
-
-    // Strip markdown triple backticks and optional html fences
-    fullContent = fullContent
+    let fullContent = completion.choices[0].message.content
         .replace(/^```html\s*/, '')
         .replace(/^```\s*/, '')
         .replace(/```$/, '')
         .trim();
-    // Remove trailing AI summary text after the last closing </html> tag (if HTML)
-    const htmlEndIndex = fullContent.lastIndexOf('</html>');
-    if (htmlEndIndex !== -1) {
-        fullContent = fullContent.slice(0, htmlEndIndex + 7).trim(); // 7 = length of "</html>"
+
+    // trim after </html> or last </p>
+    const htmlEnd = fullContent.lastIndexOf('</html>');
+    if (htmlEnd !== -1) {
+        fullContent = fullContent.slice(0, htmlEnd + 7).trim();
     } else {
-        // Alternatively, try trimming after last paragraph close if you don't have full HTML
-        const lastParagraphIndex = fullContent.lastIndexOf('</p>');
-        if (lastParagraphIndex !== -1) {
-            fullContent = fullContent.slice(0, lastParagraphIndex + 4).trim();
-        }
+        const pEnd = fullContent.lastIndexOf('</p>');
+        if (pEnd !== -1) fullContent = fullContent.slice(0, pEnd + 4).trim();
     }
-    // Extract first paragraph and the rest
-    const firstParaMatch = fullContent.match(/<p>.*?<\/p>/i);
-    let firstParagraph = '', remainingContent = '';
-    if (firstParaMatch) {
-        firstParagraph = firstParaMatch[0];
-        remainingContent = fullContent.replace(firstParaMatch[0], '');
-    } else {
-        firstParagraph = fullContent;
-        remainingContent = '';
-    }
+
+    // extract first paragraph
+    const firstParaMatch = fullContent.match(/<p>.*?<\/p>/i) || [];
+    const firstParagraph = firstParaMatch[0] || '';
+    const remainingContent = firstParagraph
+        ? fullContent.replace(firstParaMatch[0], '')
+        : fullContent;
+    const rawText = firstParagraph.replace(/<[^>]+>/g, '').trim();
+    const description = rawText.length > 155
+        ? rawText.slice(0, 152).trim() + '…'
+        : rawText;
+
+    // Pixabay attribution
     const attributionHtml = pixabayData.user
         ? `<p style="font-size:0.8rem; color:#666; margin-top: 3rem;">
        Image courtesy of
@@ -212,47 +253,59 @@ async function generateBlogPost(topic) {
        <a href="https://pixabay.com" target="_blank" rel="noopener noreferrer">Pixabay</a>.
      </p>`
         : '';
-    // Fill in the template
-    const filledHtml = promptTemplate
-        .replace(/{{title}}/g, topic)
+
+    // fill in placeholders
+    return promptTemplate
+        .replace(/{{title}}/g, fullTitle)
+        .replace(/{{description}}/g, description)
+        .replace(/{{imageUrl}}/g, pixabayData.imageUrl)
+        .replace(/{{slug}}/g, slug)
+        .replace(/{{datePublished}}/g, datePublished)
         .replace(/{{firstParagraph}}/g, firstParagraph)
         .replace(/{{remainingContent}}/g, remainingContent)
-        .replace(/{{imageUrl}}/g, pixabayData.imageUrl)
         .replace(/{{attribution}}/g, attributionHtml);
-
-    return filledHtml;
 }
 
+// ———— main: loop over topics.txt ————
 async function main() {
-    const topic = process.argv.slice(2).join(' ');
-    if (!topic) {
-        console.error('Usage: node generate-blog.js "<topic>"');
+    const topicsPath = path.join(process.cwd(), 'topics.txt');
+    if (!fs.existsSync(topicsPath)) {
+        console.error('❌ topics.txt not found.');
+        process.exit(1);
+    }
+    const topics = fs.readFileSync(topicsPath, 'utf8')
+        .split(/\r?\n/)
+        .map(l => l.trim().replace(/^"|"$/g, ''))
+        .filter(Boolean);
+
+    if (!topics.length) {
+        console.error('❌ No topics in topics.txt.');
         process.exit(1);
     }
 
-    try {
-        const htmlContent = await generateBlogPost(topic);
+    console.log(`🔎 Generating ${topics.length} posts…`);
+    for (const topic of topics) {
+        console.log(`📝 ${topic}`);
+        const html = await generateBlogPost(topic);
         const filename = slugify(topic, { lower: true, strict: true }) + '.html';
-        const blogPath = path.join(process.cwd(), 'blog', filename);
-
-        fs.writeFileSync(blogPath, htmlContent, 'utf8');
-        console.log('Blog post saved to', blogPath);
-
-        execSync(`git add "${blogPath}"`);
-        execSync(`git commit -m "Add blog post about ${topic}"`);
-        execSync('git push');
-        console.log('Changes pushed to GitHub');
-
-        // Run the index updater script to refresh blog.html
-        console.log('Running update-blog-index.js...');
-        execSync('node update-blog-index.js', { stdio: 'inherit' });
-        execSync('git add blog/index.html');
-        execSync('git commit -m "Update blog index with new article"');
-        execSync('git push');
-        console.log('Blog index updated and pushed.');
-    } catch (err) {
-        console.error('Error:', err);
+        const outPath = path.join(process.cwd(), 'blog', filename);
+        fs.writeFileSync(outPath, html, 'utf8');
+        execSync(`git add "${outPath}"`);
     }
+
+    execSync(`git commit -m "Add blog posts: ${topics.join(', ')}"`);
+    execSync('git push');
+    console.log('🚀 New posts pushed.');
+
+    console.log('🔄 Updating blog index…');
+    execSync('node update-blog-index.js', { stdio: 'inherit' });
+    execSync('git add blog/index.html');
+    execSync(`git commit -m "Update blog index with new posts"`);
+    execSync('git push');
+    console.log('✅ Index updated & pushed.');
 }
 
-main();
+main().catch(err => {
+    console.error(err);
+    process.exit(1);
+});

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# point search engines to your sitemap
+Sitemap: https://metrixcalculator.com/sitemap.xml

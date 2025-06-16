@@ -2,7 +2,7 @@
 // push updates to git // 
 
 git add .
-git commit -m "CHANGES"
+git commit -m "GTM"
 git push
 
 ================================================================================
@@ -21,20 +21,17 @@ http://localhost:8000/blog/
 
 // BLOG GENERATION SCRIPT // 
 
-node generate-blog.js "Rafael Devers"
+node generate-blog.js "What's the Deal with AMEX Platinum Card"
+node generate-blog.js
+node generate-sitemap.js
 
 ** Note that the quoted topic becomes the title ** 
 
 ================================================================================
 
-$env:OPENAI_API_KEY="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"
+$env:OPENAI_API_KEY="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"
+export OPENAI_API_KEY="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"
+export PIXABAY_API_KEY="50854526-b653f2709cc61ca4df8d0da29"
 
 
-$env:OPENAI_API_KEY="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"
-node generate-blog.js "Rafael Devers"
-
-
-
-
-setx PIXABAY_API_KEY "50854526-b653f2709cc61ca4df8d0da29"
 $env:PIXABAY_API_KEY="50854526-b653f2709cc61ca4df8d0da29"
