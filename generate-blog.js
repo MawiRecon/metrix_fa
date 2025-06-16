@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 import slugify from 'slugify';
 import fetch from 'node-fetch'; // npm install node-fetch
 import OpenAI from 'openai';
-const PIXABAY_API_KEY = process.env.PIXABAY_API_KEY;
+const PIXABAY_API_KEY = "50854526-b653f2709cc61ca4df8d0da29";
 
 
 async function fetchPixabayImageData(query) {
@@ -32,7 +32,7 @@ async function fetchPixabayImageData(query) {
 async function generateBlogPost(topic) {
     console.log('Calling OpenAI with topic:', topic);
     const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
+        apiKey: "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",
     });
     const pixabayData = await fetchPixabayImageData(topic);
     console.log('Fetched image data:', pixabayData);
@@ -91,6 +91,13 @@ async function generateBlogPost(topic) {
   <div class="page-wrapper">
 
     <div class="container">
+
+        <p style="font-size: 0.9rem; margin-bottom: 0.5rem;">
+            <a href="https://www.profitableratecpm.com/zkupn3qrp?key=36a541d23de77f6fb879cd3f33309c4d" target="_blank" rel="noopener noreferrer">
+            Learn more here
+            </a>
+        </p>
+
       <h1>{{title}}</h1>
       <div class="date">Published June 2025</div>
 
@@ -226,7 +233,7 @@ async function main() {
     try {
         const htmlContent = await generateBlogPost(topic);
         const filename = slugify(topic, { lower: true, strict: true }) + '.html';
-        const blogPath = path.join(process.cwd(), 'Blog', filename);
+        const blogPath = path.join(process.cwd(), 'blog', filename);
 
         fs.writeFileSync(blogPath, htmlContent, 'utf8');
         console.log('Blog post saved to', blogPath);
@@ -239,9 +246,7 @@ async function main() {
         // Run the index updater script to refresh blog.html
         console.log('Running update-blog-index.js...');
         execSync('node update-blog-index.js', { stdio: 'inherit' });
-
-        // Add, commit, and push the updated blog.html
-        execSync('git add Blog/index.html');
+        execSync('git add blog/index.html');
         execSync('git commit -m "Update blog index with new article"');
         execSync('git push');
         console.log('Blog index updated and pushed.');

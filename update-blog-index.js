@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const blogDir = path.join(__dirname, 'Blog');
-const indexPath = path.join(__dirname, 'blog.html');
+const blogDir = path.join(__dirname, 'blog');
+const indexPath = path.join(blogDir, 'index.html');
 
 function getTitleFromHTML(content) {
     const match = content.match(/<title>(.*?)<\/title>/i);
@@ -10,7 +10,7 @@ function getTitleFromHTML(content) {
 }
 
 function generateListItems() {
-    const files = fs.readdirSync(blogDir).filter(file => file.endsWith('.html'));
+    const files = fs.readdirSync(blogDir).filter(file => file.endsWith('.html') && file !== 'index.html');
     return files.map(file => {
         const filePath = path.join(blogDir, file);
         const html = fs.readFileSync(filePath, 'utf-8');
@@ -31,7 +31,7 @@ function updateIndex() {
     );
 
     fs.writeFileSync(indexPath, updatedHTML);
-    console.log('✅ blog.html updated with latest blog post links.');
+    console.log('✅ index.html updated with latest blog post links.');
 }
 
 updateIndex();
