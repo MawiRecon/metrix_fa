@@ -59,7 +59,7 @@ function loadCalculator(calc) {
             <label for="adSpend">Spend:</label>
             <input type="number" id="adSpend" step="any" required>
         </div>
-        <button type="submit">Calculate ROAS</button>
+        <button type="submit">Calculate</button>
     `;
         form.onsubmit = calculateROAS;
         customText.innerHTML = `
@@ -98,7 +98,7 @@ function loadCalculator(calc) {
             <label for="adSpend">Ad Spend:</label>
             <input type="number" id="adSpend" step="any" required>
         </div>
-        <button type="submit">Calculate CPA</button>
+        <button type="submit">Calculate</button>
     `;
         form.onsubmit = calculateCPA;
         customText.innerHTML = `
@@ -162,7 +162,7 @@ function loadCalculator(calc) {
             <label for="clicks">Clicks:</label>
             <input type="number" id="clicks" step="any" required>
         </div>
-        <button type="submit">Calculate CPC</button>
+        <button type="submit">Calculate</button>
     `;
         form.onsubmit = calculateCPC;
         customText.innerHTML = 'Calculate the cost per click based on total spend and clicks.';
@@ -178,7 +178,7 @@ function loadCalculator(calc) {
             <label for="impressions">Impressions:</label>
             <input type="number" id="impressions" step="any" required>
         </div>
-        <button type="submit">Calculate CTR</button>
+        <button type="submit">Calculate</button>
     `;
         form.onsubmit = calculateCTR;
         customText.innerHTML = 'Calculate the click-through rate (CTR) based on clicks and impressions.';
@@ -254,7 +254,7 @@ function loadCalculator(calc) {
                 <label for="plannedValue">Planned Value:</label>
                 <input type="number" id="plannedValue" step="any" required>
             </div>
-            <button type="submit">Calculate Index</button>
+            <button type="submit">Calculate</button>
         `;
         form.onsubmit = calculateIndex;
         customText.innerHTML = `
@@ -292,7 +292,7 @@ function loadCalculator(calc) {
             <label for="videocomplete">Video Completes:</label>
             <input type="number" id="videocomplete" step="any" required>
         </div>
-        <button type="submit">Calculate VCR</button>
+        <button type="submit">Calculate</button>
     `;
         form.onsubmit = calculateVCR;
         customText.innerHTML = `
@@ -321,7 +321,7 @@ function loadCalculator(calc) {
             <label for="audiocomplete">Audio Completes:</label>
             <input type="number" id="audiocomplete" step="any" required>
         </div>
-        <button type="submit">Calculate LTR</button>
+        <button type="submit">Calculate</button>
     `;
         form.onsubmit = calculateLTR;
         customText.innerHTML = `
@@ -349,7 +349,7 @@ function loadCalculator(calc) {
             <label for="paidview">Paid Views:</label>
             <input type="number" id="paidview" step="any" required>
         </div>
-        <button type="submit">Calculate VR</button>
+        <button type="submit">Calculate</button>
     `;
         form.onsubmit = calculateVR;
         customText.innerHTML = `

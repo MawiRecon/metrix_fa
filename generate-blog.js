@@ -46,7 +46,7 @@ async function generateBlogPost(topic) {
     const pixabayData = await fetchPixabayImageData(topic);
     const slug = slugify(topic, { lower: true, strict: true });
     const datePublished = new Date().toISOString().split('T')[0];
-    const fullTitle = `What’s the deal?: ${topic}`;
+    const fullTitle = `What’s the Deal?: ${topic}`;
 
     const promptTemplate = `
 <!DOCTYPE html>
@@ -87,7 +87,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "headline": "{{title}}",
   "description": "{{description}}",
   "image": "{{imageUrl}}",
-  "url": "https://yourdomain.com/blog/{{slug}}",
+  "url": "https://metrixcalculator.com/blog/{{slug}}",
   "datePublished": "{{datePublished}}",
   "author": {
     "@type": "Person",
@@ -97,7 +97,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </script>
 
   <!-- CANONICAL URL: outside the JSON-LD script -->
-  <link rel="canonical" href="https://yourdomain.com/blog/{{slug}}" />
+  <link rel="canonical" href="https://metrixcalculator.com/blog/{{slug}}" />
 
 </head>
 <body>
@@ -211,27 +211,41 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </html>
 `;
 
-    // call OpenAI
+    // 1) Call OpenAI…
     const completion = await openai.chat.completions.create({
         model: 'gpt-4o-mini',
-        messages: [{
-            role: 'user',
-            content: `Write a detailed SEO-friendly blog post about "${topic}" in HTML format with paragraphs and headings only. Include a paragraph that has a controversial opinion about the topic. Include a bulleted list of relevant links at the bottom of the blog post. Aim for at least 500 words of unique, value-driven content.`
-        }],
+        messages: [
+            { role: 'system', content: 'You are an expert SEO copywriter and HTML formatter.' },
+            { role: 'user', content: `Write a detailed SEO-friendly blog post about "${topic}" in HTML format. Include a list of 3-5 relevant links at the bottom of the blog. Aim for a minimum of 500 words…` }
+        ]
     });
+
+    // 2) Grab and clean raw HTML
     let fullContent = completion.choices[0].message.content
         .replace(/^```html\s*/, '')
         .replace(/^```\s*/, '')
         .replace(/```$/, '')
         .trim();
 
-    // trim after </html> or last </p>
+    // 3) Drop AI commentary before the first HTML tag
+    fullContent = fullContent
+        .replace(/^[\s\S]*?(?=<)/, '')
+        .trim();
+
+    // 4) Strip any nested <html>…<body> wrappers
+    fullContent = fullContent
+        .replace(/<!DOCTYPE html>[\s\S]*?<body[^>]*>/i, '')
+        .replace(/<\/body>[\s\S]*<\/html>/i, '')
+        .trim();
+    // 5) Now fall back to your existing “trim after </html> or </p>” logic
     const htmlEnd = fullContent.lastIndexOf('</html>');
     if (htmlEnd !== -1) {
         fullContent = fullContent.slice(0, htmlEnd + 7).trim();
     } else {
         const pEnd = fullContent.lastIndexOf('</p>');
-        if (pEnd !== -1) fullContent = fullContent.slice(0, pEnd + 4).trim();
+        if (pEnd !== -1) {
+            fullContent = fullContent.slice(0, pEnd + 4).trim();
+        }
     }
 
     // extract first paragraph
