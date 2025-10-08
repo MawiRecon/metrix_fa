@@ -32,7 +32,8 @@ function loadCalculator(calc) {
         customText.innerHTML = `
             Use this calculator to determine performance increase or decrease relative to a starting point.<br>
             <br> 
-            This is not the same as Percent Difference.<br>
+            <b>This is not the same as Percent Difference.</b>
+            <br>
             In percentage change, the point of reference is one of the numbers in question; while in percent difference, 
             you take the average of these two numbers as the point of reference. 
             <br>
