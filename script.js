@@ -37,12 +37,8 @@ function loadCalculator(calc) {
             In percentage change, the point of reference is one of the numbers in question; while in percent difference, 
             you take the average of these two numbers as the point of reference. 
             <br>
-    
-            Use this formula in Excel or Google Sheets for your reporting needs:
             <pre><code>=((Current Value - Previous Value) / Previous Value) * 100</code></pre>
             <br>
-
-            <p> Here is the mathemetical formula, where V2 is Current Value and V1 is Previous Value. </p>
             <br>
             $$\\frac{(V_2 - V_1)}{|V_1|} \\times 100$$
         `;
@@ -64,23 +60,12 @@ function loadCalculator(calc) {
     `;
         form.onsubmit = calculateROAS;
         customText.innerHTML = `
-            Use this calculator to determine how effective the campaign is at generating revenue .<br>
-            <br> 
-            <li>Any value <100% means the campaign is spending more money than it's generating. </li>
-            <br>
-           <li> 100% ROAS is the breakeven point, but still considered a less than ideal outcome.</li>
-            <br> 
-           <li> The ideal ROAS value depends on the advertiser's product, goals, historical benchmarks, and media channel. </li>
-            <li>A good rule of thumb is to aim for a minimum of 200% ROAS, or a 2x return. </li>
-        
-            <p>Use this formula in Excel or Google Sheets for your reporting needs:</p>
-           <p> Find ROAS Percentage: </p>
+            <p>ROAS Percentage: </p>
             <pre><code>=(Revenue/Spend)*100</code></pre>
             <br>
             Find X Return:
             <pre><code>=(Revenue/Spend)</code></pre>
             <br>
-            <p> Here is the mathemetical formula for calculating ROAS percentage: </p>
             <br>
             $$\\frac{Revenue}{Spend} \\times 100$$
         `;
@@ -103,13 +88,10 @@ function loadCalculator(calc) {
     `;
         form.onsubmit = calculateCPA;
         customText.innerHTML = `
-            Cost per Acquisition (or Action) represents the total cost to aquire new sales or leads through a specific channel.
+            Cost per Action (or CPL, Cost per Lead) represents the total cost to aquire new sales or leads through a specific channel.
             <br>
-            Calculated by dividing spend by number of conversions, CPA helps assess efficiency and profitability.
 
-            <p>Use this formula in Excel or Google Sheets for your reporting needs:</p>
             <pre><code>=(Spend / Conversions)</code></pre>
-            <p>Here is the mathematical formula for calculating CPA:</p>
             <br>
              $$\\text{CPA} = \\frac{Spend}{Conversions}$$
         
@@ -137,7 +119,7 @@ function loadCalculator(calc) {
         form.onsubmit = calculateCPM;
         customText.innerHTML = `
             Provide any two values to solve for the desired metric.
-            <p> Use this formula in Excel or Google Sheets for your reporting needs: </p>
+            <br></br>
             <pre><code>CPM=(Spend / Impressions) * 1000</code></pre>
             <pre><code>Impressions=Spend / (CPM * 1000)</code></pre>
             <pre><code>Spend=CPM * (Impressions / 1000)</code></pre>
